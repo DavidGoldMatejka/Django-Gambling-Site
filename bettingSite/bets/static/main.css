@@ -1,0 +1,30 @@
+
+body{
+    /*background-color: #1F1F1F; */
+    background-color: red;
+  }
+  
+    
+nav{
+    top: 34px;
+    left: 300px;
+    right: 0px;
+    position: absolute;
+    width: 84.5%;
+    height: 66px;
+  
+  }
+  
+.logoContainer{
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    background-color: #f8f9fa;
+    z-index: 1
+  
+  }
+  
+
+.logo{
+    padding: 10px;
+  }

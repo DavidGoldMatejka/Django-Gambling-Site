@@ -1,0 +1,514 @@
+{% extends "bets/base.html" %} 
+{% load static %}
+{% block content %}
+    <style>
+    #item0 { 
+height: 200px;
+width: auto;
+background: green; 
+padding: 1rem;
+display: flex;
+justify-content: center;
+align-items: center;
+font-size: 40px;
+font-weight: bold;
+
+}
+
+ #item1, #item3, #item5, #item7, #item9 { 
+    height: 200px;
+    width: auto;
+    background: red; 
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 40px;
+    font-weight: bold;
+
+ } 
+
+
+.owl-carousel .item{
+    height: 200px;
+    width: auto;
+    background: black; 
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 40px;
+    font-weight: bold;
+}
+.owl-carousel .item h4 {
+    color: #FFF;
+    font-weight: 400;
+    margin-top: 0rem;
+}
+.btn-jump::after {
+    content: '';
+    position: absolute;
+    left: 44%;
+    top: -30%;
+    width: 0;
+    height: 0;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-bottom: 20px solid #2b3843;
+    clear: both;
+}
+.btn-jump {
+    z-index: 999;
+    margin-top: 5px;
+    width: 300px;
+    position: relative;
+    background-color: #2b3843;
+    color: white;
+    padding: 20px;
+}
+.wrap-jump {
+    text-align: center;
+}
+
+.roulette{
+    padding: 50px;
+    top: 150px;
+    left: 2.5%;
+    position: absolute;
+    z-index: 1;
+    background-color: grey;
+    border-radius: 25px;
+}
+
+
+
+.gameContainer{
+    position: absolute;
+    top: 150px;
+    width: 80%;
+    left: 10%;
+    padding: 50px;
+    background-color: white;
+    border-radius: 25px;
+}
+
+.betContainer{
+    position: absolute;
+    width: 80%;
+    left: 10%;
+    height: 50%;
+    top: 120%;
+    padding: 50px;
+    background-color: white;
+    z-index: 1;
+    border-radius: 25px;
+}
+
+.inputContainer{
+    padding: 15px;
+    background-color: #1F1F1F;  
+    position: absolute;
+    width: 90%;
+    border-radius: 25px;
+    
+}
+
+.coinContainer2{
+  
+  padding: 10px;
+  background-color:#FFD700;
+  border-radius: 25px;
+  position: relative;
+  left: 10%;
+
+}
+
+.sideContainer{
+    left: 40%;
+    top: 10%;
+    position: absolute;
+    display: flex;
+
+}
+
+.redButton{
+    position: relative;
+    margin-right: 75px;
+    top: 2px;
+}
+
+.greenButton{
+    position: relative;
+    margin-right: 25%;
+    top: 2px;
+}
+
+.blackButton{
+    position: relative;
+    margin-right: 25%;
+    top: 2px;
+}
+
+.amountInput{
+    position: absolute;
+    left: 15%;
+    top: 18%;
+    
+}
+
+
+
+
+
+    </style>
+
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+        <!-- <script src="static/roulette.js"></script> -->
+        <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+
+        <!--The MIT License (MIT)
+
+Copyright (c) 2015 Alejandro Lucena Archilla
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE-->
+    
+    <div class=gameContainer>
+        <div class="owl-carousel owl-theme">
+            <div class="item element-roulette" data-item="1" id="item1"><h4>1</h4></div>
+            <div class="item element-roulette" data-item="2"><h4>2</h4></div>
+            <div class="item element-roulette" data-item="3" id="item3"><h4>3</h4></div>
+            <div class="item element-roulette" data-item="4"><h4>4</h4></div>
+            <div class="item element-roulette" data-item="5" id="item5"><h4>5</h4></div>
+            <div class="item element-roulette" data-item="6"><h4>6</h4></div>
+            <div class="item element-roulette" data-item="7" id="item7"><h4>7</h4></div>
+            <div class="item element-roulette" data-item="8"><h4>8</h4></div>
+            <div class="item element-roulette" data-item="9" id="item9"><h4>9</h4></div>
+            <div class="item element-roulette" data-item="10"><h4>10</h4></div>
+            <div class="item element-roulette" data-item="0" id="item0"><h4>0</h4></div>
+        </div>
+        <div class="wrap-jump">
+            <button class="btn-jump" id="js-btn-jump"></button>
+        </div>
+
+
+    <div class="betContainer">
+        <div class="inputContainer" blank="False">
+        {% csrf_token %}
+        <span class="coinContainer2"><i class="fas fa-coins"></i></span>
+        <input name="amount" class="amountInput" type="number" min="0.01" placeholder="Enter Amount" id="amount">
+            <div class="sideContainer" id="buttonNav">
+                    {% csrf_token %}
+                    <span class="redButton"><button type="button" class="btn btn-danger" id="redButton" >   Place bet (x2)  </button></span>
+                    <span class="greenButton"><button type="button" class="btn btn-success" id ="greenButton" >Place bet (x10)</button></span>
+                    <span class="blackButton"><button type="button" class="btn btn-dark" id="blackButton" >Place bet (x2)</button></span>
+
+            </div>
+        </div>
+
+    </div>
+    </div>
+
+<script>
+var itemSelected = 0;
+var stoping = false;
+var token = '{{csrf_token}}';
+
+
+
+
+jQuery(function ($) {
+    var totalCoins = getCoins();
+
+    var $owl = $('.owl-carousel');
+    // Initialize Owl
+    $('.owl-carousel').owlCarousel({
+        center: true,
+        loop: true,
+        margin: 10,
+        nav: false,
+        mouseDrag: false,
+        touchDrag: false,
+        pullDrag: false,
+        dots: false,
+        responsive: {
+            0: {
+                items: 3
+            },
+            600: {
+                items: 3
+            },
+            1000: {
+                items: 7
+            }
+        }
+    });
+    
+    // Red button
+    // localhost:8000/increment
+    $('#redButton').click(function (e) {
+        getCoins();
+        var amount = $("#amount").val();
+        setTimeout(doNothing, 1000)
+        document. getElementById('amount'). value = '';
+        //var totalCoins = getCoins();
+        console.log(totalCoins);
+        if(parseFloat(amount) <= parseFloat(totalCoins) && parseFloat(amount) > 0.0)
+        {
+            
+            var choice = 0;
+            spinWheel(choice, amount);
+        }
+
+        amount = 0;
+        return false;
+    });
+
+    function doNothing(){
+        return false;
+    }
+
+    $('#blackButton').click(function (e) {
+        getCoins();
+        var amount = $("#amount").val();
+        setTimeout(doNothing, 1000)
+        document. getElementById('amount'). value = '';
+        //var totalCoins = getCoins();
+        console.log(totalCoins);
+        if(parseFloat(amount) <= parseFloat(totalCoins) && parseFloat(amount) > 0.0)
+        {
+            
+            var choice = 1;
+            spinWheel(choice, amount);
+        }
+
+        amount = 0;
+        return false;
+    });
+
+    $('#greenButton').click(function (e) {
+        getCoins();
+        var amount = $("#amount").val();
+        setTimeout(doNothing, 1000)
+        document. getElementById('amount'). value = '';
+        //var totalCoins = getCoins();
+        console.log(totalCoins);
+        if(parseFloat(amount) <= parseFloat(totalCoins) && parseFloat(amount) > 0.0)
+        {
+            
+            var choice = 2;
+            spinWheel(choice, amount);
+        }
+
+        amount = 0;
+        return false;
+    });
+
+
+
+    function refresh(){
+        $("#coinContainer").load(window.location.href + " #coinContainer" );
+        return false;
+    }
+
+    function postBet(amount){
+        return $.ajax({
+            headers: { "X-CSRFToken": token },
+            url: '/increment/',
+            type: "POST",
+            data: {
+                "amount": amount,
+            },
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+            },
+            error: function (error) {
+                console.log("Error Message: ");
+                console.log(error);
+                
+            }
+        });
+    }
+
+
+    var _number;
+    function getter(number){
+        _number = number;
+        return number;
+    }
+
+    function getCoins(){
+        
+        call = $.ajax({
+            url: '/getcoins/',
+            type: 'GET',
+            data: {
+                
+            },
+            success: function(data){
+                console.log("Success");
+                var coins = parseFloat(data.coins);
+                getter(data.coins);
+                console.log(data.coins)
+                return coins;
+            },
+            error: function (error) {
+                console.log("Error Message: ");
+                console.log(error);
+                
+            }
+        });
+        
+        
+        totalCoins = _number;
+        _number = 0;
+        return totalCoins;
+    }
+
+    function decrement(amount){
+        return $.ajax({
+            headers: { "X-CSRFToken": token },
+            url: '/decrement/',
+            type: "POST",
+            data: {
+                "amount": amount,
+            },
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+            },
+            error: function (error) {
+                console.log("Error Message: ");
+                console.log(error);
+                
+            }
+        });
+    }
+
+
+    function spinWheel(choice, amount){
+        //e.preventDefault();
+        
+        stoping = false;
+        // Random between 1 and 10
+        itemSelected = Math.floor((Math.random() * 11));
+        var $jump = $(this);
+        //$jump.html('Jumping ...');
+        $jump.attr('disabled', 'disabled');
+        // Trigger autoplay owl
+        $owl.trigger('play.owl.autoplay', [100]);
+        // Slow speed by step
+        setTimeout(slowSpeed, 2000, $owl, 200);
+        setTimeout(slowSpeed, 4000, $owl, 250);
+        setTimeout(slowSpeed, 5000, $owl, 300);
+        setTimeout(stopAutoplay, 6000);
+        if(choice == 2)
+            {
+                if(itemSelected == 0)
+                    {
+                        amount = (amount * 10) -amount;
+                        postBet(amount);
+                        return;
+                    }
+                    else{
+                        postBet(-amount);
+                    }
+            }
+        else if(choice == 0)
+        {
+            if(itemSelected % 2 != 0)
+            {
+                postBet(amount);
+
+            }
+            else{
+                postBet(-amount);
+            }
+        }
+        else if(choice == 1)
+        {
+            if(itemSelected % 2 == 0 && itemSelected != 0)
+                {  
+                   
+                    postBet(amount);
+                    
+                }
+                else{
+                    postBet(-amount);
+                }
+        }
+        
+        setTimeout(refresh, 8000);
+        return false;
+    }
+    // Click in button Jump
+    /*
+    $('#buttonNav').click(function (e) {
+        e.preventDefault();
+        stoping = false;
+        // Random between 1 and 10
+        //var itemSelected = Math.floor((Math.random() * 11));
+        itemSelected = "{{ winner }}";
+        var $jump = $(this);
+        //$jump.html('Jumping ...');
+        $jump.attr('disabled', 'disabled');
+        // Trigger autoplay owl
+        $owl.trigger('play.owl.autoplay', [100]);
+        // Slow speed by step
+        setTimeout(slowSpeed, 2000, $owl, 200);
+        setTimeout(slowSpeed, 4000, $owl, 250);
+        setTimeout(slowSpeed, 5000, $owl, 300);
+        setTimeout(stopAutoplay, 6000);
+        return false;
+    });
+ */
+    // Event changed Owl
+    $owl.on('changed.owl.carousel', function (e) {
+        if (stoping) {
+            // Examine only if roulette stop
+            var index = e.item.index;
+            var element = $(e.target).find(".owl-item").eq(index).find('.element-roulette');
+            var item = element.data('item');
+            if (item == itemSelected) {
+                // If element equals to random, stop roulette
+                $owl.trigger('stop.owl.autoplay');
+                //$('#buttonNav').html('Jump');
+                $('#buttonNav').removeAttr('disabled');
+            }
+        }
+    });
+
+    // Showcase
+    slowSpeed($owl, 1400);
+
+});
+
+/**
+ * Reduce speed roulette
+ * @param {type} $owl
+ * @param {type} speed
+ * @returns {undefined}
+ */
+function slowSpeed($owl, speed) {
+    $owl.trigger('play.owl.autoplay', [speed]);
+}
+
+/**
+ * Stop autoplay roulette
+ * @returns {undefined}
+ */
+function stopAutoplay() {
+    stoping = true;
+}
+    </script>
+
+{% endblock content %}

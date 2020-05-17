@@ -1,0 +1,28 @@
+{% extends "bets/base.html" %} 
+{% load crispy_forms_tags %}
+{% block content %}
+
+    <style>
+
+.content-section {
+  background: #ffffff;
+  padding: 10px 20px;
+  border: 1px solid #dddddd;
+  border-radius: 3px;
+  margin-bottom: 20px;
+  margin-top: 50px;
+}
+
+
+    </style>
+            <div class="content-section">
+                <h2> You have been logged out </h2>
+                <div class="border-top pt-3">
+                    <small class="text-muted"> 
+                        <a href="{% url 'register' %}"> Login </a> 
+
+                    </small>
+                </div>
+            </div>
+
+{% endblock content %}

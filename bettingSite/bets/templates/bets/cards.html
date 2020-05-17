@@ -1,0 +1,544 @@
+{% extends "bets/base.html" %} 
+{% load static %}
+{% block content %}
+
+<style>
+    /*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+
+body{
+    height: 80vh;
+    background-color: #060AB2;
+    display: flex;
+}
+*/
+
+.tower-game{
+    
+    width: 60%;
+    height: 80%;
+    margin: auto;
+    display: flex;
+    flex-wrap: wrap;
+    perspective: 1000px;
+    top: 15%;
+    left: 30%;
+    position: absolute;
+    background-color: white;
+    padding: 20px;
+    border-radius: 25px;
+    
+}
+
+.tower-card{
+    width: calc(25% - 10px);
+    height: calc(33.333% - 10px);
+    position: relative;
+    margin: 5px;
+    transform: scale(1);
+    transform-style: preserve-3d;
+    transition: transform .5s;
+}
+
+.tower-card.flip{
+    transform: rotateY(180deg);
+}
+
+.tower-card:active{
+    transform: scale(.97);
+    transition: transform .2s;
+
+}
+
+.back-face,
+.front-face{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    padding: 20px;
+    border-radius: 5px;
+    background: #1c7ccc;
+    backface-visibility: hidden;
+    
+}
+*:focus {
+    outline: none;
+}
+.betContainer{
+    width: 25%;
+    height: 75%;
+    margin: auto;
+    perspective: 1000px;
+    top: 15%;
+    left: 2%;
+    position: absolute;
+    background-color: white;
+    padding: 10px;
+    border-radius: 25px;
+}
+
+.front-face{
+    transform: rotateY(180deg);
+}
+
+.coinContainer2{
+  
+  padding: 10px;
+  background-color:#FFD700;
+  border-radius: 25px;
+  position: relative;
+  left: 2%;
+
+}
+
+.amountInput{
+  padding: 10px;
+  border-radius: 5px;
+  position: relative;
+  left: 2%;
+}
+
+.greenButton{
+  padding: 5px;
+  border-radius: 5px;
+  position: relative;
+  left: 5%;
+}
+
+.inputContainer{
+    padding: 15px;
+    background-color: #1F1F1F;  
+    position: absolute;
+    width: 95%;
+    border-radius: 25px;
+}
+
+.explainText{
+    padding: 15px;
+    background-color: #1F1F1F;  
+    position: absolute;
+    width: 95%;
+    border-radius: 25px;
+    margin-top: 20%;
+    color: white;
+}
+
+.leaveContainer{
+    padding: 15px;
+    background-color: #1F1F1F;  
+    position: absolute;
+    width: 95%;
+    border-radius: 25px;
+    margin-top: 95%;
+    color: white;
+    
+}
+
+.potential{
+    color: limegreen;
+}
+
+#alarmmsg{
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    
+}
+
+#alarmmsg.hide{
+    visibility: hidden;
+}
+
+.redButton{
+    position: absolute;
+    left: 17%;
+    top: 20%;
+    
+}
+
+.nextWinContainer{
+    padding: 15px;
+    background-color: #1F1F1F;  
+    position: absolute;
+    width: 95%;
+    border-radius: 25px;
+    margin-top: 115%;
+    color: white;
+}
+
+.redContainer{
+    padding: 15px;
+    position: absolute;
+    margin-top: 77%;
+    left: 25%;
+    background-color: #1F1F1F; 
+    width: 40%;
+    height: 10%;
+    border-radius: 25px;
+}
+
+</style>
+
+<!DOCTYPE html>
+<!-- COIN ICON LICENCE
+COIN AND BOMB ICON CREATED BY FONTAWESOME.com
+https://fontawesome.com/license
+-->
+<head>
+    <meta charset="UTF-8">
+    <div class="alert alert-success" role="alert" id="alarmmsg"> </div>
+</head>
+<body>
+    <section class="betContainer"> 
+        <div class="inputContainer" blank="False">
+            <span class="coinContainer2"><i class="fas fa-coins"></i></span>
+            {% csrf_token %}
+            <input name="amount" class="amountInput" type="number" min="0.01" placeholder="Enter Amount" id="amount">
+            <span class="greenButton"><button type="button" class="btn btn-success" id ="greenButton" > Place Bet! </button></span>
+        </div>
+        <div class="explainText">
+            <h3> Cards! </h3>
+            <p>
+               Behind each card is a coin or a bomb! <br><br> Every time you click on a coin, the amount you win grows exponentially. <br><br> However, if you click on one of the five bombs before you cash out, you lose! 
+            </p>
+        </div>
+        <div class="redContainer">
+            <span class="redButton"><button type="button" class="btn btn-danger" id="redButton" >  Claim Reward!  </button></span>
+        </div>
+        <div class="leaveContainer">
+            <h3>Current Cashout: <span class="potential" id="potential"> 0.00 </span></h3>
+            
+        </div>
+
+        <div class="nextWinContainer">
+        <div class="nextWin">
+            <h3>Next Round Cashout: <span class="potential" id="nextRound"> 0.00 </span></h3>
+            
+        </div>
+
+    </div>
+
+  
+        
+    </section>
+    <section class="tower-game">
+       <div class="tower-card" data-framework="bomb">
+           <img class="front-face" src="{% static 'Photos/bomb-solid.svg' %}" alt="Aurelia" />
+           <img class="back-face" src="{% static 'Photos/logo no words.png' %}" alt="JS BADGE" />
+       </div>
+       <div class="tower-card" data-framework="bomb">
+        <img class="front-face" src="{% static 'Photos/bomb-solid.svg' %}" alt="Aurelia" />
+        <img class="back-face" src="{% static 'Photos/logo no words.png' %}" alt="JS BADGE" />
+    </div>
+    <div class="tower-card" data-framework="bomb">
+        <img class="front-face" src="{% static 'Photos/bomb-solid.svg' %}" alt="Aurelia" />
+        <img class="back-face" src="{% static 'Photos/logo no words.png' %}" alt="JS BADGE" />
+    </div>
+       <div class="tower-card" data-framework="bomb">
+        <img class="front-face" src="{% static 'Photos/bomb-solid.svg' %}" alt="Aurelia" />
+        <img class="back-face" src="{% static 'Photos/logo no words.png' %}" alt="JS BADGE" />
+    </div>
+    <div class="tower-card" data-framework="bomb">
+        <img class="front-face" src="{% static 'Photos/bomb-solid.svg' %}" alt="Aurelia" />
+        <img class="back-face" src="{% static 'Photos/logo no words.png' %}" alt="JS BADGE" />
+    </div>
+    <div class="tower-card" data-framework="coins">
+        <img class="front-face" src="{% static 'Photos/coins-solid.svg' %}" alt="Aurelia" />
+        <img class="back-face" src="{% static 'Photos/logo no words.png' %}" alt="JS BADGE" />
+    </div>
+    <div class="tower-card" data-framework="coins">
+        <img class="front-face" src="{% static 'Photos/coins-solid.svg' %}" alt="Aurelia" />
+        <img class="back-face" src="{% static 'Photos/logo no words.png' %}" alt="JS BADGE" />
+    </div>
+    <div class="tower-card" data-framework="coins">
+        <img class="front-face" src="{% static 'Photos/coins-solid.svg' %}" alt="Aurelia" />
+        <img class="back-face" src="{% static 'Photos/logo no words.png' %}" alt="JS BADGE" />
+    </div>
+    <div class="tower-card" data-framework="coins">
+        <img class="front-face" src="{% static 'Photos/coins-solid.svg' %}" alt="Aurelia" />
+        <img class="back-face" src="{% static 'Photos/logo no words.png' %}" alt="JS BADGE" />
+    </div>
+    <div class="tower-card" data-framework="coins">
+        <img class="front-face" src="{% static 'Photos/coins-solid.svg' %}" alt="Aurelia" />
+        <img class="back-face" src="{% static 'Photos/logo no words.png' %}" alt="JS BADGE" />
+    </div>
+    <div class="tower-card" data-framework="coins">
+        <img class="front-face" src="{% static 'Photos/coins-solid.svg' %}" alt="Aurelia" />
+        <img class="back-face" src="{% static 'Photos/logo no words.png' %}" alt="JS BADGE" />
+    </div>
+    <div class="tower-card" data-framework="coins">
+        <img class="front-face" src="{% static 'Photos/coins-solid.svg' %}" alt="Aurelia" />
+        <img class="back-face" src="{% static 'Photos/logo no words.png' %}" alt="JS BADGE" />
+    </div>
+
+
+    </section> 
+    
+
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script>
+document.getElementById("alarmmsg").classList.add('hide');
+const cards = document.querySelectorAll('.tower-card');
+let hasFlippedCard = false;
+let lockBoard = true;
+var playerCoins = 0.00; 
+var currentWinnings = 0.00;
+var coinCounter = 1;
+var currentCard;
+var lose = false;
+var totalCoins = 0;
+var _number = 0;
+var token = '{{csrf_token}}';
+var next = 0.00;
+
+
+
+jQuery(function ($) {
+
+function postBet(amount){
+    return $.ajax({
+        headers: { "X-CSRFToken": token },
+        url: '/increment/',
+        type: "POST",
+        data: {
+            "amount": amount,
+        },
+        dataType: "json",
+        success: function (data) {
+            console.log(data);
+        },
+        error: function (error) {
+            console.log("Error Message: ");
+            console.log(error);
+            
+        }
+    });
+}
+
+function decrement(amount){
+return $.ajax({
+    headers: { "X-CSRFToken": token },
+    url: '/decrement/',
+    type: "POST",
+    data: {
+        "amount": amount,
+    },
+    dataType: "json",
+    success: function (data) {
+        console.log(data);
+    },
+    error: function (error) {
+        console.log("Error Message: ");
+        console.log(error);
+        
+    }
+});
+}
+
+
+
+function refresh(){
+$("#coinContainer").load(window.location.href + " #coinContainer" );
+return false;
+}
+
+function refreshPotential(){
+$("#potential").load(window.location.href + " #potential" );
+$("#nextRound").load(window.location.href + " #nextRound" );
+return false;
+}
+
+$('#greenButton').click(function (e) {
+//getCoins();
+coinCounter = 1;
+shuffle();
+var amount = $("#amount").val();
+document. getElementById('amount'). value = '';
+refresh();
+totalCoins = "{{ user.profile.coins }}";
+//var totalCoins = getCoins();
+if(parseFloat(amount) <= parseFloat(totalCoins) && parseFloat(amount) > 0.0)
+{
+    playerCoins = amount;
+    message();
+    var displayNext = Math.round((((1.2 * (1)) * amount) * 100) /100) -amount;
+    document.getElementById("nextRound").innerHTML = displayNext;
+    document.getElementById("redButton").addEventListener("click", function(){
+        if(lockBoard){
+            refresh();
+            return;
+        }
+        console.log(currentWinnings);
+        postBet(currentWinnings);
+        unflipCards();
+        lockBoard = true;
+        currentWinnings = 0.0;
+        next = 0.0;
+        coinCounter = 1;
+        refresh();
+        refreshPotential();
+        return false;
+        });
+    cards.forEach(card=>card.addEventListener('click', flipCard));
+    resetBoard();
+    decrement(amount);
+    playerCoins = amount;
+    refresh();
+    document.getElementById("potential").innerHTML = currentWinnings;
+    refreshPotential();
+    
+}
+refresh();
+refreshPotential();
+amount = 0;
+currentWinnings = 0.0;
+next = 0.00;
+return false;
+});
+
+/*
+$('#redButton').click(function (e) {
+    console.log("red");
+    postBet(amount);
+    refresh();
+    unflipCards();
+    lockBoard = true;
+    return false;
+    });
+*/
+function getter(number){
+    _number = number;
+    return number;
+}
+
+function message(){
+    document.getElementById("alarmmsg").classList.remove('hide');
+    document.getElementById("alarmmsg").innerHTML = "Bet Placed Successfully: Start clicking on cards";
+
+    setTimeout(function(){
+    document.getElementById("alarmmsg").classList.add('hide');
+    }, 5500);
+}
+
+function getCoins(){
+
+call = $.ajax({
+    url: '/getcoins/',
+    type: 'GET',
+    data: {
+        
+    },
+    success: function(data){
+        console.log("Success");
+        var coins = parseFloat(data.coins);
+        getter(data.coins);
+        console.log(data.coins)
+        return coins;
+    },
+    error: function (error) {
+        console.log("Error Message: ");
+        console.log(error);
+        
+    }
+});
+
+
+totalCoins = _number;
+_number = 0;
+return totalCoins;
+}
+
+
+
+
+
+
+function flipCard(){
+//if(lockBoard) return;
+
+    if(lockBoard) return;
+    this.classList.add('flip');
+    currentCard = this.dataset.framework;
+    if(currentCard == "coins"){
+
+        currentWinnings = Math.round(((1.2 * coinCounter) * playerCoins) * 100) /100;
+        var display = currentWinnings;
+        display = (Math.round(display *100)/100);
+        var displayNext = Math.round((((1.2 * (coinCounter+1)) * playerCoins) * 100) /100);
+        coinCounter++;
+        document.getElementById("potential").innerHTML = display;
+        document.getElementById("nextRound").innerHTML = displayNext;
+
+        this.removeEventListener('click', flipCard);
+        
+        if (coinCounter == 8){
+
+            postBet(currentWinnings);
+            refresh();
+            unflipCards();
+            lockBoard = true;
+        }
+    }
+    else if(currentCard == "bomb"){
+        //indicate player has lost
+        lockBoard=true;
+        unflipCards();
+        lose = true;
+        playerCoins = 0.00;
+        document.getElementById("potential").innerHTML = playerCoins;
+        document.getElementById("nextRound").innerHTML = 0.00;
+        
+        
+    }
+
+
+    
+}
+//firstCard.dataset.framework === secondCard.dataset.framework;
+
+//cards.forEach(card=>card.addEventListener('click', flipCard));
+//firstCard.classList.remove('flip');
+
+function unflipCards() {
+lockBoard = true;
+
+setTimeout(() => { cards.forEach(card=>card.classList.add('flip'));
+}, 1000);
+setTimeout(reflipCards, 1000);
+
+}
+
+function reflipCards(){
+    setTimeout(() => { cards.forEach(card=>card.classList.remove('flip'));
+    }, 3000);
+    
+}
+
+function resetBoard() {
+lockBoard = false;
+lose = false;
+playerCoins = 0.00;
+
+//[hasFlippedCard, lockBoard] = [false, false];
+//[firstCard, secondCard] = [null, null];
+
+}
+
+function shuffle() {
+cards.forEach(card => {
+    let randomPos = Math.floor((Math.random() * 12));
+    card.style.order = randomPos;
+});
+}
+
+
+return false;
+});
+</script>
+
+{% endblock content %}

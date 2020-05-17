@@ -1,0 +1,147 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- <link rel = "stylesheet" type="text/css" href="{% static 'bets/main.css' %}"> -->
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+  <!--Get your own code at fontawesome.com-->
+    <title>Match Point - #1 betting site</title>
+    
+    <style>
+      
+body{
+    background-color: #1F1F1F; 
+  }
+  
+    
+nav{
+    top: 34px;
+    left: 300px;
+    right: 0px;
+    position: absolute;
+    width: 84.5%;
+    height: 66px;
+  
+  }
+  
+.logoContainer{
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    background-color: #f8f9fa;
+    z-index: 1
+  
+  }
+  
+
+.logo{
+    padding: 10px;
+  }
+
+.alert{
+  z-index: 2;
+  top: 45px;
+}
+
+a{
+  text-decoration: none;
+}
+
+.coinContainer{
+  
+  padding: 10px;
+  background-color:#FFD700;
+  border-radius: 25px;
+}
+
+.cardGame{
+  position: relative;
+  z-index: 1;
+  height: 35px;
+  margin-right: 5px;
+}
+
+.rouletteGame{
+  position: relative;
+  z-index: 1;
+  height: 35px;
+  margin-right: 5px;
+}
+  
+</style>
+  </head>
+  <body>
+    <header>
+
+      <div class="logoContainer">
+        <div class = "logo">
+          <img width = "280" height = "80" src = "{% static '/Photos/logoWords.png' %}" >
+        </div>
+
+        </div>
+      </div>
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="{% url 'bets-home' %}"><img class = rouletteGame src="https://img.icons8.com/ios/50/000000/roulette.png"/>Roulette</a>
+      <a class="navbar-brand" href="{% url 'cards' %}"><img class="cardGame" src="https://img.icons8.com/wired/64/000000/cards.png"/>Cards</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+
+          
+          <li class="nav-item">
+            <a class="nav-link disabled" href="#">Coming Soon</a>
+          </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+          <button class="btn btn-outline-success my-2 my-sm-0 mr-lg-2" type="submit"> <a  href="{% url 'deposit' %}" style="text-decoration: none;  color: black;"> Deposit </a> </button>
+          <button class="btn btn-outline-danger my-2 my-sm-0 mr-lg-2" type="submit"><a  href="{% url 'withdraw' %}" style="text-decoration: none; color: black;" > Withdraw </a></button>
+        </form>
+
+
+
+      </div>
+      <div class="navbar-nav">
+          {% if user.is_authenticated %}
+          <span class="coinContainer" id="coinContainer"><i class="fas fa-coins"></i> {{ user.profile.coins }} </span>
+          <a class="nav-item nav-link" href="{% url 'profile' %}">Profile</a>
+          <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
+          
+          {% else %}
+          <a class="nav-item nav-link" href="{% url 'register' %}">Register</a>
+          <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
+          {% endif %}
+
+      </div>
+    </nav>
+    </header>
+  
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}"> 
+          {{ message }}
+        </div> 
+      {% endfor %}
+    {% endif %}
+    
+    {% block content %}{% endblock %}
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  </body>
+</html>

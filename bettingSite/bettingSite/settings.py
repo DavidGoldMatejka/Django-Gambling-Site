@@ -129,6 +129,7 @@ STATICFILES_DIRS = [
     '/SportsBettingSite_v3/bettingSite/bets/static',
 ]
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATIC_URL = '/static/'
 

@@ -25,7 +25,7 @@ SECRET_KEY = '$3(ib5e3qnw*dun)$_7mho&y1o=s=7q60z-inx#v1hn4ex&5r5'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['https://djangosportsbetting.herokuapp.com']
+ALLOWED_HOSTS = ['djangosportsbetting.herokuapp.com']
 
 
 # Application definition

@@ -63,10 +63,18 @@ def Decrement(request):
 
 @api_view(['POST'])
 def Increment(request):
+
     amount = request.data['amount']
     amount = Decimal(amount)
     profile = get_object_or_404(Profile, user=request.user)
     print(profile)
+    if amount < 0:
+        if -amount < profile.coins:
+                profile.coins += amount
+                profile.save(update_fields=['coins'])
+                
+        return Response({"data": request.data})
+        
     profile.coins += amount
     profile.save(update_fields=['coins'])
     return Response({"data": request.data})

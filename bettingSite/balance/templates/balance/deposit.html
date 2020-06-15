@@ -1,44 +1,98 @@
 {% extends "bets/base.html" %} 
 {% block content %}
-
-
 <style>
-  #paypal-button-container{
-    position: relative;
-    top: 5%;
-    padding: 15px;
-    background-color: #1F1F1F; 
-    border-radius: 25px;
-    width: 15%;
 
-  }
-
-  .paymentMethods{
-    position: absolute;
-    top: 15%;
-    padding: 15px;
-    background-color: white;
-    border-radius: 25px;
-    width: 80%;
-    height: 80%;
-    left: 10%;
-
-  }
-</style>
-<!DOCTYPE html>
-
-<head>
-    <!-- Add meta tags for mobile and IE -->
-
-</head>
-
-<div class="content-section">
-  <h2> Withdraw Page </h2>
-  <div class="border-top pt-3">
-
-  </div>
-</div>
-</body>
- 
+    .content-section {
+      background: #ffffff;
+      padding: 10px 20px;
+      border: 1px solid #dddddd;
+      border-radius: 3px;
+      margin-bottom: 20px;
+      margin-top: 50px;
+    }
     
+    
+        </style>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+
+        
+                <div class="content-section">
+                    <h2> Deposit Page </h2>
+                    {% csrf_token %}
+                    <div class="border-top pt-3">
+                      <h4> Example Deposit Page </h4>
+                      <h6> Real Payment methods would be added in if this wasn't an example website, such as cryptocurrency or Pay Pal. </h6>
+                      {% csrf_token %}
+                      <button class="btn btn-outline-success my-2 my-sm-0 mr-lg-2" type="submit" id="add100"> Add 100 </button>
+                      <button class="btn btn-outline-success my-2 my-sm-0 mr-lg-2" type="submit" id="add500"> Add 500 </button>
+                      <button class="btn btn-outline-success my-2 my-sm-0 mr-lg-2" type="submit" id="add1000"> Add 1000 </button>
+
+                      
+                    </div>
+                </div>
+    
+
+<script>
+var token = '{{csrf_token}}';
+
+jQuery(function ($) {
+
+
+    $('#add100').click(function (e) {
+        
+        postBet(100)
+        setTimeout(refresh, 1000)
+        return false;
+    });
+
+    $('#add500').click(function (e) {
+        
+        postBet(500)
+        setTimeout(refresh, 1000)
+        return false;
+    });
+
+    $('#add1000').click(function (e) {
+        
+        postBet(1000)
+        setTimeout(refresh, 1000)
+        return false;
+    });
+
+
+
+    
+  function refresh(){
+        $("#coinContainer").load(window.location.href + " #coinContainer" );
+        return false;
+    }
+
+    function postBet(amount){
+        return $.ajax({
+            headers: { "X-CSRFToken": token },
+            url: '/increment/',
+            type: "POST",
+            data: {
+                "amount": amount,
+            },
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+            },
+            error: function (error) {
+                console.log("Error Message: ");
+                console.log(error);
+                
+            }
+        });
+    }
+
+
+  });
+
+
+
+</script>
 {% endblock content %}

@@ -13,11 +13,147 @@
     
     
         </style>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+
+        
                 <div class="content-section">
                     <h2> Withdraw Page </h2>
+                    {% csrf_token %}
                     <div class="border-top pt-3">
+                      <h4> Example Deposit Page </h4>
+                      <h6> Real Withdraw methods would be added in if this wasn't an example website. </h6>
+                      {% csrf_token %}
+                      <button class="btn btn-outline-danger my-2 my-sm-0 mr-lg-2" type="submit" id="add100"> Withdraw 100 </button>
+                      <button class="btn btn-outline-danger my-2 my-sm-0 mr-lg-2" type="submit" id="add500"> Withdraw 500 </button>
+                      <button class="btn btn-outline-danger my-2 my-sm-0 mr-lg-2" type="submit" id="add1000"> Withdraw 1000 </button>
 
+                      
                     </div>
                 </div>
     
+
+<script>
+var token = '{{csrf_token}}';
+
+jQuery(function ($) {
+
+
+  $('#add100').click(function (e) {
+        playerCoins = getCoins();
+
+        if(playerCoins >= 100){
+        postBet(-100);
+        setTimeout(refresh, 1000);
+        }
+        return false;
+    });
+
+    $('#add500').click(function (e) {
+        playerCoins = getCoins();
+
+        if(playerCoins >= 500){
+        postBet(-500);
+        setTimeout(refresh, 1000);
+        }
+        return false;
+    });
+
+    $('#add1000').click(function (e) {
+        playerCoins = getCoins();
+
+        if(playerCoins >= 1000){
+        postBet(-1000);
+        setTimeout(refresh, 1000);
+        }
+        return false;
+    });
+
+    var _number;
+    function getter(number){
+        _number = number;
+        return number;
+    }
+
+    function getCoins(){
+        
+        call = $.ajax({
+            url: '/getcoins/',
+            type: 'GET',
+            data: {
+                
+            },
+            success: function(data){
+                console.log("Success");
+                var coins = parseFloat(data.coins);
+                getter(data.coins);
+                console.log(data.coins)
+                return coins;
+            },
+            error: function (error) {
+                console.log("Error Message: ");
+                console.log(error);
+                
+            }
+        });
+        
+        
+        totalCoins = _number;
+        _number = 0;
+        return totalCoins;
+    }
+
+    function decrement(amount){
+        return $.ajax({
+            headers: { "X-CSRFToken": token },
+            url: '/decrement/',
+            type: "POST",
+            data: {
+                "amount": amount,
+            },
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+            },
+            error: function (error) {
+                console.log("Error Message: ");
+                console.log(error);
+                
+            }
+        });
+    }
+
+    
+  function refresh(){
+        $("#coinContainer").load(window.location.href + " #coinContainer" );
+        return false;
+    }
+
+    function postBet(amount){
+        return $.ajax({
+            headers: { "X-CSRFToken": token },
+            url: '/increment/',
+            type: "POST",
+            data: {
+                "amount": amount,
+            },
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+            },
+            error: function (error) {
+                console.log("Error Message: ");
+                console.log(error);
+                
+            }
+        });
+    }
+
+
+  });
+
+
+
+</script>
 {% endblock content %}

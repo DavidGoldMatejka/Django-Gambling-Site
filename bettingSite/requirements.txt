@@ -7,7 +7,7 @@ chardet==3.0.4
 colorama==0.4.3
 distlib==0.3.0
 dj-database-url==0.5.0
-Django==3.0.4
+Django==3.1.13
 django-cors-headers==3.2.1
 django-crispy-forms==1.9.0
 -e git+https://github.com/jazzband/django-debug-toolbar.git@783781c8cd396035ac2c2ea2951502f423a9b463#egg=django_debug_toolbar
